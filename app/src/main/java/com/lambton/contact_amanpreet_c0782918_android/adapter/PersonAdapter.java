@@ -7,13 +7,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.lambton.contact_amanpreet_c0782918_android.R;
 import com.lambton.contact_amanpreet_c0782918_android.database.Person;
@@ -21,8 +21,9 @@ import com.lambton.contact_amanpreet_c0782918_android.database.PersonRoomDB;
 
 import java.util.List;
 
-public class PersonAdapter extends ArrayAdapter {
+public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonViewHolder> {
 
+    private static final String TAG = "PersonAdapter";
     Context context;
     int layoutRes;
     List<Person> personList;
@@ -30,35 +31,44 @@ public class PersonAdapter extends ArrayAdapter {
     PersonRoomDB personRoomDB;
 
 
-    public PersonAdapter(@NonNull Context context, int resource, List<Person> personList) {
-        super(context, resource, personList);
+    public PersonAdapter(Context context, int resource,  List<Person> personList) {
 
         this.personList = personList;
-        this.context = context;
         this.layoutRes = resource;
+        this.context = context;
+
         personRoomDB = personRoomDB.getINSTANCE(context);
     }
 
+
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull final ViewGroup parent) {
-//        return super.getView(position, convertView, parent);
+    public PersonViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+
         final LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(layoutRes, null);
-        TextView firstNameTV = view.findViewById(R.id.tv_firstName);
-        TextView lastNameTV = view.findViewById(R.id.tv_lastName);
-        TextView emailTV = view.findViewById(R.id.tv_email);
-        TextView contactTV = view.findViewById(R.id.tv_contact);
-        TextView addressTV = view.findViewById(R.id.tv_address);
+
+//        View mView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_person,
+//                parent,
+//                false);
+
+        PersonViewHolder personViewHolder = new PersonAdapter.PersonViewHolder(view);
+
+        return personViewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull PersonViewHolder holder, int position) {
 
         final Person person = personList.get(position);
-        firstNameTV.setText(person.getFirstName());
-        lastNameTV.setText(person.getLastName());
-        emailTV.setText(person.getEmail());
-        contactTV.setText(person.getPhoneNumber());
-        addressTV.setText(person.getAddress());
+        holder.firstNameTV.setText(person.getFirstName());
+        holder.lastNameTV.setText(person.getLastName());
+        holder.emailTV.setText(person.getEmail());
+        holder.contactTV.setText(person.getPhoneNumber());
+        holder.addressTV.setText(person.getAddress());
 
-        view.findViewById(R.id.btn_edit).setOnClickListener(new View.OnClickListener() {
+        holder.itemView.findViewById(R.id.btn_edit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 updateContact(person);
@@ -67,6 +77,9 @@ public class PersonAdapter extends ArrayAdapter {
             private void updateContact(final Person person) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 LayoutInflater layoutInflater = LayoutInflater.from(context);
+
+
+
                 View view = layoutInflater.inflate(R.layout.dialog_update_contact, null);
                 builder.setView(view);
                 final AlertDialog alertDialog = builder.create();
@@ -135,7 +148,7 @@ public class PersonAdapter extends ArrayAdapter {
             }
         });
 
-        view.findViewById(R.id.btn_delete).setOnClickListener(new View.OnClickListener() {
+        holder.itemView.findViewById(R.id.btn_delete).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 deleteContact(person);
@@ -162,17 +175,42 @@ public class PersonAdapter extends ArrayAdapter {
 
             }
         });
-        return view;
 
-    }
-
-    @Override
-    public int getCount() {
-        return personList.size();
     }
 
     private void loadContacts() {
         personList = personRoomDB.personDao().getAllContacts();
         notifyDataSetChanged();
     }
+
+    @Override
+    public int getItemCount() {
+
+        Log.d(TAG, "getItemCount: " +personList.size());
+        return personList.size();
+
+
+    }
+
+    public class PersonViewHolder extends RecyclerView.ViewHolder{
+
+        TextView firstNameTV ;
+        TextView lastNameTV ;
+        TextView emailTV ;
+        TextView contactTV ;
+        TextView addressTV ;
+
+
+        public PersonViewHolder(@NonNull View itemView) {
+            super(itemView);
+            firstNameTV = itemView.findViewById(R.id.tv_firstName);
+            lastNameTV = itemView.findViewById(R.id.tv_lastName);
+            emailTV = itemView.findViewById(R.id.tv_email);
+            contactTV = itemView.findViewById(R.id.tv_contact);
+            addressTV = itemView.findViewById(R.id.tv_address);
+        }
+
+    }
+
+
 }
