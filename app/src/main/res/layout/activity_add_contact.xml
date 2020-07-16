@@ -18,6 +18,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
             android:text="ADD NEW CONTACT"
+            android:textStyle="bold"
+            android:textColor="#0B5345  "
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:gravity="center_horizontal" />
@@ -55,6 +57,8 @@
             android:id="@+id/btnAddContact"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#0B5345 "
+            android:textColor="#fff"
             android:text="Add" />
 
     </LinearLayout>

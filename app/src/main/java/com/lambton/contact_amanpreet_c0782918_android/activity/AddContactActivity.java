@@ -2,6 +2,7 @@ package com.lambton.contact_amanpreet_c0782918_android.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -26,6 +27,8 @@ public class AddContactActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_contact);
 
+        getSupportActionBar().hide();
+
         et_firstName = findViewById(R.id.et_firstName);
         et_lastName = findViewById(R.id.et_lastName);
         et_email = findViewById(R.id.et_email);
@@ -42,6 +45,7 @@ public class AddContactActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View view) {
 
         addContact();
+
 
     }
 
@@ -84,7 +88,10 @@ public class AddContactActivity extends AppCompatActivity implements View.OnClic
         // insert into room db
         Person person = new Person(firstName,lastName,email,contact,address);
         personRoomDB.personDao().insertContact(person);
-        Toast.makeText(this, "Contact added", Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(AddContactActivity.this, MainActivity.class);
+        startActivity(intent);
+//        Toast.makeText(this, "Contact added", Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -6,32 +6,43 @@
     android:orientation="horizontal">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_weight="3"
+        android:paddingLeft="10dp"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
         <TextView
             android:id="@+id/tv_firstName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp"
             android:text="John"
+            android:textStyle="bold"
+            android:textColor="#0B5345"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         <TextView
             android:id="@+id/tv_lastName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
             android:text="Smith"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            android:textStyle="bold"
+            android:textColor="#0B5345"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tv_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="johnSmith@gmail.com"
+            android:textStyle="italic"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <TextView
@@ -39,6 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:text="1234567890" />
 
         <TextView
@@ -46,6 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:text="123 Abc" />
 
     </LinearLayout>
@@ -53,7 +66,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="3"
+        android:layout_weight="2"
         android:orientation="vertical">
 
         <Button
@@ -61,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:background="#48C9B0"
+            android:background="@drawable/button_design"
             android:text="Edit"
             android:textColor="#000" />
 
@@ -70,7 +83,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:background="#F08080"
+            android:background="@drawable/button_designsecond"
             android:text="Delete"
             android:textColor="#000" />
     </LinearLayout>
