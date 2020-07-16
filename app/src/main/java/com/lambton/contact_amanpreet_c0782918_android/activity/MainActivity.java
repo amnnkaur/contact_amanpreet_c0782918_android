@@ -2,14 +2,17 @@ package com.lambton.contact_amanpreet_c0782918_android.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.EditorInfo;
+import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.lambton.contact_amanpreet_c0782918_android.R;
 import com.lambton.contact_amanpreet_c0782918_android.adapter.PersonAdapter;
@@ -24,6 +27,11 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView rvPersonList;
 
     private PersonRoomDB personRoomDB;
+    PersonAdapter personAdapter;
+
+    private SearchView searchView;
+
+    TextView tv_totalContacts;
 
     List<Person> personList;
 
@@ -34,19 +42,43 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle("Customer List");
 
+        tv_totalContacts = findViewById(R.id.tv_totalContacts);
+
         rvPersonList = findViewById(R.id.rvPersonList);
         rvPersonList.setLayoutManager(new LinearLayoutManager(this));
+        rvPersonList.addItemDecoration(new DividerItemDecoration(this,
+                DividerItemDecoration.VERTICAL));
+        rvPersonList.setAdapter(personAdapter);
         personList = new ArrayList<>();
         personRoomDB = personRoomDB.getINSTANCE(this);
         loadContact();
 
+
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.mymenu, menu);
-        return super.onCreateOptionsMenu(menu);
+
+        MenuItem searchItem = menu.findItem(R.id.btnSearch);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                personAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+        return true;
+
     }
 
     @Override
@@ -58,14 +90,32 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
 
         }
+
+        if (item.getItemId() == R.id.btnSearch){
+//            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//                @Override
+//                public boolean onQueryTextSubmit(String query) {
+//                    return false;
+//                }
+//                @Override
+//                public boolean onQueryTextChange(String newText) {
+//                    personAdapter.getFilter().filter(newText);
+//                    return false;
+//                }
+//            });
+
+
+        }
         return super.onOptionsItemSelected(item);
     }
 
     private void loadContact() {
         personList = personRoomDB.personDao().getAllContacts();
 
-        PersonAdapter personAdapter = new PersonAdapter(this,R.layout.item_person, personList);
+        personAdapter = new PersonAdapter(this,R.layout.item_person, personList);
         rvPersonList.setAdapter(personAdapter);
+
+        tv_totalContacts.setText(String.valueOf(personList.size()));
 
     }
 }

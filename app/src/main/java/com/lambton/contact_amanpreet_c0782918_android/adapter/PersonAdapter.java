@@ -8,36 +8,42 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lambton.contact_amanpreet_c0782918_android.R;
 import com.lambton.contact_amanpreet_c0782918_android.database.Person;
 import com.lambton.contact_amanpreet_c0782918_android.database.PersonRoomDB;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonViewHolder> {
+public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonViewHolder> implements Filterable {
 
     private static final String TAG = "PersonAdapter";
     Context context;
     int layoutRes;
     List<Person> personList;
+    List<Person> personNewList;
 
     PersonRoomDB personRoomDB;
 
 
-    public PersonAdapter(Context context, int resource,  List<Person> personList) {
+    public PersonAdapter(Context context, int resource, List<Person> personList) {
 
         this.personList = personList;
         this.layoutRes = resource;
         this.context = context;
+        this.personNewList = personList;
 
         personRoomDB = personRoomDB.getINSTANCE(context);
+
+        personNewList = new ArrayList<>(personList);
     }
 
 
@@ -77,7 +83,6 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonView
             private void updateContact(final Person person) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 LayoutInflater layoutInflater = LayoutInflater.from(context);
-
 
 
                 View view = layoutInflater.inflate(R.layout.dialog_update_contact, null);
@@ -156,7 +161,7 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonView
 
             private void deleteContact(final Person person) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("Are you sure to delete" + person.getFirstName() + "?");
+                builder.setTitle("Are you sure to delete " + person.getFirstName() + "?");
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -186,19 +191,25 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonView
     @Override
     public int getItemCount() {
 
-        Log.d(TAG, "getItemCount: " +personList.size());
+        Log.d(TAG, "getItemCount: " + personList.size());
         return personList.size();
 
 
     }
 
-    public class PersonViewHolder extends RecyclerView.ViewHolder{
+    @Override
+    public Filter getFilter() {
 
-        TextView firstNameTV ;
-        TextView lastNameTV ;
-        TextView emailTV ;
-        TextView contactTV ;
-        TextView addressTV ;
+        return personFilter;
+    }
+
+    public class PersonViewHolder extends RecyclerView.ViewHolder {
+
+        TextView firstNameTV;
+        TextView lastNameTV;
+        TextView emailTV;
+        TextView contactTV;
+        TextView addressTV;
 
 
         public PersonViewHolder(@NonNull View itemView) {
@@ -212,5 +223,31 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonView
 
     }
 
+    private Filter personFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Person> filteredList = new ArrayList<>();
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(personNewList);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+                for (Person item : personNewList) {
+                    if (item.getFirstName().toLowerCase().contains(filterPattern) || item.getLastName().toLowerCase().contains(filterPattern) || item.getPhoneNumber().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+            return results;
+        }
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            personList.clear();
+            personList.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
 
 }
+
