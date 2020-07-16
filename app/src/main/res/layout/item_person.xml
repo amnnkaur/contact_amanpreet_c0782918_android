@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:text="John"
             android:textStyle="bold"
-            android:textColor="#0B5345"
+            android:textColor="#1B2631"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         <TextView
@@ -32,7 +32,7 @@
             android:paddingLeft="5dp"
             android:text="Smith"
             android:textStyle="bold"
-            android:textColor="#0B5345"
+            android:textColor="#1B2631"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         </LinearLayout>
@@ -43,6 +43,7 @@
             android:layout_height="wrap_content"
             android:text="johnSmith@gmail.com"
             android:textStyle="italic"
+            android:textColor="#1B2631"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <TextView
@@ -50,6 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:textColor="#1B2631"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:text="1234567890" />
 
@@ -58,6 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:textColor="#1B2631"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:text="123 Abc" />
 

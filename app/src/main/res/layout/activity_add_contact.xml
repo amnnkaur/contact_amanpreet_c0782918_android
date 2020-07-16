@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/anwar"
     tools:context="com.lambton.contact_amanpreet_c0782918_android.activity.AddContactActivity">
 
     <LinearLayout
@@ -19,7 +20,7 @@
             android:layout_marginBottom="15dp"
             android:text="ADD NEW CONTACT"
             android:textStyle="bold"
-            android:textColor="#0B5345  "
+            android:textColor="#1B2631"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:gravity="center_horizontal" />
