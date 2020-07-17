@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lambton.contact_amanpreet_c0782918_android.R;
+import com.lambton.contact_amanpreet_c0782918_android.activity.MainActivity;
 import com.lambton.contact_amanpreet_c0782918_android.database.Person;
 import com.lambton.contact_amanpreet_c0782918_android.database.PersonRoomDB;
 
@@ -32,6 +33,7 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonView
     List<Person> personNewList;
 
     PersonRoomDB personRoomDB;
+    MainActivity mainActivity;
 
 
     public PersonAdapter(Context context, int resource, List<Person> personList) {
@@ -186,6 +188,8 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonView
     private void loadContacts() {
         personList = personRoomDB.personDao().getAllContacts();
         notifyDataSetChanged();
+
+        MainActivity.calculateContacts(personList.size());
     }
 
     @Override

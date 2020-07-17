@@ -24,6 +24,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static int noOfContacts;
     RecyclerView rvPersonList;
 
     private PersonRoomDB personRoomDB;
@@ -31,7 +32,10 @@ public class MainActivity extends AppCompatActivity {
 
     private SearchView searchView;
 
-    TextView tv_totalContacts;
+    public static TextView tv_totalContacts;
+    TextView nonStaticcontacts;
+
+//    static int noOfContacts;
 
     List<Person> personList;
 
@@ -43,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Customer List");
 
         tv_totalContacts = findViewById(R.id.tv_totalContacts);
+        nonStaticcontacts = findViewById(R.id.tv_totalContacts);
 
         rvPersonList = findViewById(R.id.rvPersonList);
         rvPersonList.setLayoutManager(new LinearLayoutManager(this));
@@ -109,13 +114,22 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public static void calculateContacts(int value){
+
+        tv_totalContacts.setText(String.valueOf(value));
+
+    }
+
+
     private void loadContact() {
         personList = personRoomDB.personDao().getAllContacts();
 
         personAdapter = new PersonAdapter(this,R.layout.item_person, personList);
         rvPersonList.setAdapter(personAdapter);
 
-        tv_totalContacts.setText(String.valueOf(personList.size()));
+        nonStaticcontacts.setText(String.valueOf(personList.size()));
+
+//        tv_totalContacts.setText(String.valueOf(noOfContacts));
 
     }
 }
